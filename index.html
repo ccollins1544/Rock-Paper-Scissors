@@ -104,7 +104,7 @@
          *   1.2 RESET GAME VARIABLES
          *   1.3 Button Pressed Event
          * 
-         * 2.0 Test conditions
+         * 2.0 See Who Won
          *   2.1 Reset Styling
          *   2.2 Condition Variables
          *   2.3 PLAYER MOVE
@@ -151,7 +151,15 @@
         }
 
         /**
-         * 2.0 Test conditions
+         * 2.0 See Who Won
+         *
+         * This is the core function of the game. It just needs to know
+         * what letter was pressed out of r, p, or s. 
+         * Then results will be displayed on the page based on the random
+         * choice the PC picks. 
+         * 
+         * @param string letter_pressed
+         * @return nothing
          */
         function see_who_won(letter_pressed) {
             // 2.1 Reset Styling
@@ -196,7 +204,7 @@
                 document.body.style.backgroundColor = "#ffeeba";
                 GAME_RESULTS.classList.add("list-group-item-warning");
                 GAME_RESULTS.innerHTML = "CANT DO THAT";
-                return;
+                return;  // NOTE: This return here will exit the function making so the code below does not run. 
             }
 
             var player_move_spelled = options[move_index].word;
@@ -284,7 +292,9 @@
             SCORE_LOSSES.innerHTML = loses;
             ROUNDS_PLAYED.innerHTML = (wins + loses);
             WINS_LOSSES.innerHTML = (wins > loses) ? "WINS!" : "LOSSES!";
-        }
+
+            return; // We are not returning anything but typically good to exit a function with return.
+        } // END see_who_won()
     </script>
 
 </body>
