@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Game of Rock, Paper, Scissors against a PC.">
+    <title>Rock Paper Scissors Game</title>
+
+    <!-- CSS Stylesheets / Boostrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css?v=1.1.1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/v4-shims.css">
+
+</head>
+
+<body class="jumbotron jumbotron-fluid">
+    <article class="container">
+        <section class="row">
+            <div class="col-12 col-md-12">
+                <h1 class=>Rock Paper Scissors Game</h1>
+                <ul class="list-group">
+                    <li class="list-group list-group-item-primary"><strong>Instructions:</strong></p>
+                    <li class="list-group-item">Press <strong>[r]</strong> for <strong>Rock</strong></li>
+                    <li class="list-group-item">Press <strong>[p]</strong> for <strong>Paper</strong></li>
+                    <li class="list-group-item">Press <strong>[s]</strong> for <strong>Scissors</strong></li>
+                    <li class="list-group-item font-weight-bold"><span id="rounds_played"></span> Rounds played with
+                        mostly <span id="wins_vs_losses"></span></li>
+                    <li class="list-group-item font-weight-bold" id="game_results"></li>
+                </ul><!-- .list-group -->
+            </div><!-- .col-12 -->
+        </section><!-- .row -->
+
+        <section class="row">
+            <div class="col-6 col-md-6">
+                <div class="card">
+                    <img src="http://placehold.it/245x245" class="card-img-top" alt="Player Move Image"
+                        id="your_move_img">
+
+                    <div class="card-body">
+                        <h2 class="card-title">Player Move</h2>
+                        <p class="card-text" id="your_move"></p>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h4>Wins: <span id="score_wins"></span></h4>
+                        </li>
+                    </ul>
+                </div><!-- .card -->
+            </div><!-- .col-6 -->
+
+            <div class="col-6 col-md-6">
+                <div class="card">
+                    <img src="http://placehold.it/245x245" class="card-img-top" alt="PC Move Image" id="pc_move_img">
+
+                    <div class="card-body">
+                        <h2 class="card-title">PC Move</h2>
+                        <p class="card-text" id="pc_move"></p>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h4>Losses: <span id="score_losses"></span></h4>
+                        </li>
+                    </ul>
+                </div><!-- .card -->
+            </div><!-- .col-6 -->
+        </section><!-- .row -->
+    </article><!-- .container -->
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="footer-nav">
+            <div class="container clearfix">
+                <ul class="bottom-nav">
+                    <li>
+                        <a href="https://github.com/ccollins1544/Rock-Paper-Scissors">
+                            <i class="fab fa-github-alt fa-2x"></i>
+                        </a>
+                    </li>
+                </ul><!-- .bottom-nav -->
+            </div><!-- .container -->
+        </div><!-- #footer-nav -->
+
+        <div id="footer-bottom">
+            <div id="footer-info">Copyright © 2019 | <a class="footer-link" href="index.html">Christopher Collins</a> |
+                <a class="footer-link" href="https://ccollins1544.github.com/">Coding Bootcamp</a>
+            </div>
+        </div><!-- #footer-bottom -->
+
+    </footer><!-- #main-footer -->
+    <script type="text/javascript">
+        /**
+         * Rock Paper Scissors Game JS
+         * 
+         * 1.0 Collect all variables
+         *   1.1 DOM ELEMENTS
+         *   1.2 RESET GAME VARIABLES
+         *   1.3 Button Pressed Event
+         * 
+         * 2.0 Test conditions
+         *   2.1 Reset Styling
+         *   2.2 Condition Variables
+         *   2.3 PLAYER MOVE
+         *   2.4 PC MOVE
+         * 
+         * 3.0 Determine The Winner
+         *   3.1 CHECK FOR TIE GAME
+         *   3.2 NOT A TIE GAME
+         *   3.3 Set Results
+         * 
+         * 4.0 Display Results
+         *   4.1 Change Styling
+         *   4.2 Change HTML
+         *******************************************************************/
+        /**
+         * 1.0 Collect all variables
+         */
+        // 1.1 DOM ELEMENTS
+        YOUR_MOVE = document.getElementById("your_move");
+        YOUR_MOVE_IMAGE = document.getElementById("your_move_img");
+
+        PC_MOVE = document.getElementById("pc_move");
+        PC_MOVE_IMAGE = document.getElementById("pc_move_img");
+
+        GAME_RESULTS = document.getElementById("game_results");
+        SCORE_LOSSES = document.getElementById("score_losses");
+        SCORE_WINS = document.getElementById("score_wins");
+        ROUNDS_PLAYED = document.getElementById("rounds_played");
+        WINS_LOSSES = document.getElementById("wins_vs_losses");
+
+        // 1.2 RESET GAME VARIABLES
+        var player_move = "";
+        var wins = 0;
+        var loses = 0;
+        var change_style = "list-group-item-light"; //"black";
+        GAME_RESULTS.classList.add(change_style);
+        GAME_RESULTS.classList.remove("list-group-item-danger");
+        GAME_RESULTS.classList.remove("list-group-item-success");
+
+        // 1.3 Button Pressed Event
+        document.onkeyup = function (event) {
+            var key_pressed = event.key;
+            see_who_won(key_pressed);
+        }
+
+        /**
+         * 2.0 Test conditions
+         */
+        function see_who_won(letter_pressed) {
+            // 2.1 Reset Styling
+            GAME_RESULTS.classList.remove("list-group-item-light");
+            GAME_RESULTS.classList.remove("list-group-item-danger");
+            GAME_RESULTS.classList.remove("list-group-item-success");
+            GAME_RESULTS.classList.remove("list-group-item-warning");
+
+            /** 
+             * 2.2 Condition Variables
+             * NOTE: To avoid advance searching we create two arrays
+             * "options_short" and "options". The ordering of the elements
+             * in both of the arrays has to be the same or else this doesn't work.
+             * 
+             * The short version "options_short" is simply to know what index 
+             * we are looing for in the bigger "options" array.
+             ***********************************************************************/
+            var options_short = ["r", "p", "s"];
+
+            var options = [{
+                "key": "r",
+                "word": "rock",
+                "image": "assets/images/rock.jpg",
+            },
+            {
+                "key": "p",
+                "word": "paper",
+                "image": "assets/images/paper.jpg",
+            },
+            {
+                "key": "s",
+                "word": "scissors",
+                "image": "assets/images/scissors.jpg",
+            },
+            ];
+
+            // 2.3 PLAYER MOVE
+            var player_move_short = letter_pressed;
+            var move_index = options_short.indexOf(player_move_short);
+
+            if (move_index === -1) {
+                document.body.style.backgroundColor = "#ffeeba";
+                GAME_RESULTS.classList.add("list-group-item-warning");
+                GAME_RESULTS.innerHTML = "CANT DO THAT";
+                return;
+            }
+
+            var player_move_spelled = options[move_index].word;
+            var player_move_image = options[move_index].image;
+
+            // 2.4 PC MOVE
+            var min = 0;
+            var max = 3;
+            var pc_move_short = Math.floor(Math.random() * Math.floor(+max - +min)) + +min;
+
+            var pc_move_spelled = options[pc_move_short].word;
+            var pc_move_image = options[pc_move_short].image;
+
+            /**
+             * 3.0 Determine The Winner
+             */
+            var RESULTS = "";
+
+            // 3.1 CHECK FOR TIE GAME
+            if (player_move_spelled == pc_move_spelled) {
+                RESULTS = "TIE GAME!";
+                change_style = "list-group-item-light";
+                change_page_style = "#fff";
+
+            } else {
+                // 3.2 NOT A TIE GAME
+                /*****************************
+                 * Lose Conditions
+                 * 
+                 * Player    vs  PC
+                 * ---------------------------
+                 * ROCK      vs  PAPER
+                 * SCISSORS  vs  ROCK
+                 * PAPER     vs  SCISSORS
+                 ****************************/
+                did_you_win = false; // Let's just assume you lost first...then we'll check the win conditions next.
+
+                /****************************
+                 * Win Conditions
+                 * 
+                 * Player    vs  PC
+                 * ---------------------------
+                 * ROCK      vs  SCISSORS
+                 * SCISSORS  vs  PAPER
+                 * PAPER     vs  ROCK
+                 ****************************/
+                if (player_move_spelled === "rock" && pc_move_spelled === "scissors" ||
+                    player_move_spelled === "scissors" && pc_move_spelled === "paper" ||
+                    player_move_spelled === "paper" && pc_move_spelled === "rock") {
+                    did_you_win = true;
+                }
+
+                // 3.3 Set Results
+                if (did_you_win) {
+                    RESULTS = "YOU WIN!";
+                    change_style = "list-group-item-success";
+                    change_page_style = "#c3e6cb";
+                    wins++;
+
+                } else {
+                    RESULTS = "YOU LOSE!";
+                    change_style = "list-group-item-danger";
+                    change_page_style = "#f5c6cb";
+                    loses++;
+                }
+
+            } // END CHECK FOR TIE GAME
+
+            /**
+             * 4.0 Display Results
+             */
+            // 4.1 Change Styling
+            GAME_RESULTS.classList.add(change_style);
+            document.body.style.backgroundColor = change_page_style;
+            WINS_LOSSES.style.color = (wins > loses) ? "#155724" : "#721c24";
+            YOUR_MOVE_IMAGE.src = player_move_image;
+            PC_MOVE_IMAGE.src = pc_move_image;
+
+            // 4.2 Change HTML
+            YOUR_MOVE.innerHTML = player_move_spelled;
+            PC_MOVE.innerHTML = pc_move_spelled;
+
+            GAME_RESULTS.innerHTML = RESULTS;
+            SCORE_WINS.innerHTML = wins;
+            SCORE_LOSSES.innerHTML = loses;
+            ROUNDS_PLAYED.innerHTML = (wins + loses);
+            WINS_LOSSES.innerHTML = (wins > loses) ? "WINS!" : "LOSSES!";
+        }
+    </script>
+
+</body>
+
+</html>
