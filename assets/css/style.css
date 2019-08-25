@@ -23,3 +23,25 @@ li {
   width: 100%;
   bottom: 0;
 }
+
+.list-group-item-primary {
+  font-size: 1.5rem;
+  padding-top: 10px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card {
+  height: 100%;
+}
+
+.card:nth-last-child()::before{
+  content:";alksdjf;alksd";
+}
+
+#rounds_played_item {
+  display: none;
+}

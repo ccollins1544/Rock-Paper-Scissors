@@ -1,6 +1,6 @@
 # Rock-Paper-Scissors
 
-Game of Rock, Paper, Scissors against a PC.
+Game of Rock, Paper, Scissors against a website.
 
 ### Useful Links
 * This Live Repo: [https://ccollins1544.github.io/Rock-Paper-Scissors](https://ccollins1544.github.io/Rock-Paper-Scissors/)
